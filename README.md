@@ -14,7 +14,8 @@
 
 ![Status](https://img.shields.io/badge/Status-Completed-success)
 
-##CIVISENSE is an end-to-end computer vision system that detects road infrastructure damage, evaluates its severity, and continuously monitors model health using drift detection techniques.
+# CIVISENSE
+is an end-to-end computer vision system that detects road infrastructure damage, evaluates its severity, and continuously monitors model health using drift detection techniques.
 The project simulates a real-world smart city AI pipeline by combining computer vision, backend APIs, model monitoring, and database logging.
 
 **Features**
@@ -92,6 +93,7 @@ GET	/model-health	Retrieve drift metrics and model status
 **_Sample_**
 <img width="1009" height="574" alt="Screenshot 2025-12-23 191714" src="https://github.com/user-attachments/assets/8bcb318b-52e4-4043-b31a-c9f11f7c1158" />
 <img width="859" height="506" alt="Screenshot 2025-12-23 191721" src="https://github.com/user-attachments/assets/687b8c00-3259-4d5b-b9c1-62672f5e1f8a" />
+
 
 
 
