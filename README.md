@@ -90,8 +90,12 @@ POST	/predict	Detect road damage from uploaded images
 GET	/model-health	Retrieve drift metrics and model status
 
 **_Sample_**
+
+<img width="1860" height="434" alt="image" src="https://github.com/user-attachments/assets/d2cfd762-5b09-49cf-8489-dc3ebf7e4ea9" />
+<img width="1859" height="805" alt="image" src="https://github.com/user-attachments/assets/76e83b68-07ef-4fb0-8ada-e4a3bb6848f1" />
 <img width="1009" height="574" alt="Screenshot 2025-12-23 191714" src="https://github.com/user-attachments/assets/8bcb318b-52e4-4043-b31a-c9f11f7c1158" />
 <img width="859" height="506" alt="Screenshot 2025-12-23 191721" src="https://github.com/user-attachments/assets/687b8c00-3259-4d5b-b9c1-62672f5e1f8a" />
+
 
 
 
