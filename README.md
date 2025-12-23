@@ -1,4 +1,10 @@
  **CIVISENSE**
+ ![Python](https://img.shields.io/badge/Python-3.11-blue)
+![YOLOv11](https://img.shields.io/badge/YOLOv11-Ultralytics-orange)
+![FastAPI](https://img.shields.io/badge/FastAPI-Backend-green)
+![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-brightgreen)
+![Status](https://img.shields.io/badge/Status-Completed-success)
+
 AI-Powered Urban Damage Intelligence & Vision Model Health Monitoring
 
 CIVISENSE is an end-to-end computer vision system designed to detect urban road infrastructure damage, assess its severity, and continuously monitor model performance using drift detection techniques.
@@ -62,12 +68,11 @@ Once running:
 
 Open API docs at: http://127.0.0.1:8000/docs
 
-🔗 API Endpoints
+**API Endpoints**
 Method	Endpoint	Description
 POST	/predict	Run damage detection on uploaded images
 GET	/model-health	Retrieve model drift & health status
 
-👤 Author
-Devansh Prasad
-AI / ML | Computer Vision | Backend Systems
+
+
 
