@@ -6,3 +6,6 @@ due to size and licensing constraints.
 To reproduce:
 - Train YOLOv11 on RDD2022 / Roboflow road damage datasets
 - Save weights as `damage_detector.pt`
+
+Additional pothole datasets from Kaggle and Roboflow were used for
+cross-domain inference and drift analysis.
