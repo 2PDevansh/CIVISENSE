@@ -102,16 +102,21 @@ FastAPI Endpoints
 
 ## Sample Outputs
 
-### API Responses & Drift Metrics
 <p align="center">
   <img width="900" src="https://github.com/user-attachments/assets/d2cfd762-5b09-49cf-8489-dc3ebf7e4ea9"/>
   <img width="900" src="https://github.com/user-attachments/assets/76e83b68-07ef-4fb0-8ada-e4a3bb6848f1"/>
 </p>
 
-###  Annotated Detection Results
+###  API Responses & Drift Metrics
+
 <p align="center">
   <img width="700" src="https://github.com/user-attachments/assets/8bcb318b-52e4-4043-b31a-c9f11f7c1158"/>
   <img width="700" src="https://github.com/user-attachments/assets/687b8c00-3259-4d5b-b9c1-62672f5e1f8a"/>
+</p>
+
+###  Annotated Detection Results
+
+<p align="center">
   <img width="1270" height="832" alt="image" src="https://github.com/user-attachments/assets/8edfe4fc-b0fc-4506-9467-cf5d2fbbabe0" />
 
 </p>
@@ -134,5 +139,6 @@ Swagger UI: http://127.0.0.1:8000/docs
 Method	Endpoint	Description
 POST	/predict	Detect road damage from uploaded images
 GET	/model-health	Retrieve drift metrics & model status
+
 
 
