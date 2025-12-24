@@ -109,7 +109,7 @@ FastAPI Endpoints
 
 <p align="center">
   <img width="1124" height="633" alt="image" src="https://github.com/user-attachments/assets/6f04eb57-0f9f-4ccd-96e3-74bace0fdb35" />
-<img width="899" height="591" alt="image" src="https://github.com/user-attachments/assets/2c09cd5f-ed23-4ec1-9b3e-d8bc7cacd701" />
+<img width="1768" height="826" alt="image" src="https://github.com/user-attachments/assets/76cfbfa2-214c-4e7b-995c-30cfbf80619e" />
 <img width="1281" height="791" alt="image" src="https://github.com/user-attachments/assets/f472b573-f619-412f-94af-9f0c3eeaab1a" />
 
 </p>
@@ -117,7 +117,7 @@ FastAPI Endpoints
 ###  Annotated Detection Results
 
 <p align="center">
-  <img width="1270" height="832" alt="image" src="https://github.com/user-attachments/assets/8edfe4fc-b0fc-4506-9467-cf5d2fbbabe0" />
+  <img width="606" height="424" alt="image" src="https://github.com/user-attachments/assets/c926fd36-00e3-4bd0-b190-ca9e128b19bf" />
 
 </p>
 
@@ -169,6 +169,7 @@ Method	Endpoint	Description
 POST	/predict	Detect road damage from uploaded images
 
 GET	/model-health	Retrieve drift metrics & model status
+
 
 
 
