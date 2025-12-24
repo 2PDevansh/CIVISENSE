@@ -65,18 +65,23 @@ The project simulates a **real-world smart city AI pipeline** by integrating:
 ##  System Architecture
 
 Image Input
+
     ↓
     
 YOLOv11 Damage Detector
+
     ↓
     
 Severity & Risk Engine
+
     ↓
     
 MongoDB Atlas
+
     ↓
     
 Drift Monitoring Module
+
     ↓
     
 FastAPI Endpoints
@@ -174,6 +179,7 @@ Method	Endpoint	Description
 POST	/predict	Detect road damage from uploaded images
 
 GET	/model-health	Retrieve drift metrics & model status
+
 
 
 
