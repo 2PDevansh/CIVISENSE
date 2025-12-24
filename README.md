@@ -85,7 +85,6 @@ FastAPI Endpoints
 | Backend API | FastAPI |
 | Database | MongoDB Atlas |
 | Model Monitoring | Statistical Drift Detection |
-| Visualization (Optional) | OpenCV, React, Plotly |
 
 ---
 
@@ -169,6 +168,7 @@ Method	Endpoint	Description
 POST	/predict	Detect road damage from uploaded images
 
 GET	/model-health	Retrieve drift metrics & model status
+
 
 
 
