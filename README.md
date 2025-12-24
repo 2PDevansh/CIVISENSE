@@ -159,15 +159,17 @@ CIVISENSE can optionally generate **annotated images** with bounding boxes aroun
 }
 Open the image in your browser:
 
-arduino
 
 http://127.0.0.1:8000/outputs/3f8a2c91e7b44c1b.jpg
 ```
 
  ### API Endpoints
 Method	Endpoint	Description
+
 POST	/predict	Detect road damage from uploaded images
+
 GET	/model-health	Retrieve drift metrics & model status
+
 
 
 
