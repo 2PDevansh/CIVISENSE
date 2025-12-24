@@ -60,7 +60,6 @@ The project simulates a **real-world smart city AI pipeline** by integrating:
 - Useful for debugging, demos, and human validation
 - Keeps core API lightweight and scalable
 
----
 
 ##  System Architecture
 
@@ -175,6 +174,7 @@ Method	Endpoint	Description
 POST	/predict	Detect road damage from uploaded images
 
 GET	/model-health	Retrieve drift metrics & model status
+
 
 
 
