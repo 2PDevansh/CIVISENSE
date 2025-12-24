@@ -1,18 +1,23 @@
 # Python
 __pycache__/
 *.pyc
+*.pyo
 
-# Secrets
+# Virtual env
+venv/
 .env
-password.txt
 
-# Models
-*.pt
+# Model weights (DO NOT PUSH)
+models/*.pt
+
+# Uploads & outputs
+backend/uploads/
+backend/outputs/
 
 # Data
-data/raw/
-data/processed/
-data/test_images/
+data/
+*.zip
 
 # OS
 .DS_Store
+Thumbs.db
