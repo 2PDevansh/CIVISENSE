@@ -131,14 +131,44 @@ pip install -r requirements.txt
 
 # Start FastAPI server
 uvicorn backend.app:app --reload
-Once running:
-
+# Once running: Go to Swagger UI
 Swagger UI: http://127.0.0.1:8000/docs
 
-🔗 API Endpoints
+```
+##  Viewing Annotated Images (Bounding Boxes)
+
+CIVISENSE can optionally generate **annotated images** with bounding boxes around detected road damage.
+
+### How it works
+
+- When an image is uploaded to the `/predict` endpoint:
+  - The model performs detection
+  - Bounding boxes are drawn on the image
+  - The annotated image is saved on the server
+
+### How to view the image
+
+1. Upload an image using the `/predict` endpoint  
+   (via Swagger UI or API client)
+
+2. The API response will include an `annotated_image` field:
+
+```json
+{
+  "annotated_image": "/outputs/3f8a2c91e7b44c1b.jpg"
+}
+Open the image in your browser:
+
+arduino
+
+http://127.0.0.1:8000/outputs/3f8a2c91e7b44c1b.jpg
+```
+
+ ### API Endpoints
 Method	Endpoint	Description
 POST	/predict	Detect road damage from uploaded images
 GET	/model-health	Retrieve drift metrics & model status
+
 
 
 
