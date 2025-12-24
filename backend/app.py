@@ -1,11 +1,14 @@
 from fastapi import FastAPI, UploadFile, File
 from fastapi.responses import JSONResponse
+from fastapi.staticfiles import StaticFiles
 from ultralytics import YOLO
 from PIL import Image
 import io
 import json
 import numpy as np
 import os
+import uuid
+import cv2
 
 from risk_engine import compute_severity
 from db import log_prediction, log_model_health
@@ -26,7 +29,13 @@ MODEL_PATH = "../models/damage_detector.pt"
 BASELINE_STATS_PATH = "../data/drift_images/baseline_stats.json"
 LIVE_STATS_PATH = "../data/drift_images/live_stats.json"
 
+UPLOAD_DIR = "backend/uploads"
+OUTPUT_DIR = "backend/outputs"
+
 IMG_SIZE = 640
+
+os.makedirs(UPLOAD_DIR, exist_ok=True)
+os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 # -------------------------
 # LOAD MODEL
@@ -44,6 +53,11 @@ CIVISENSE_CLASSES = {
     6: "Striping",
     7: "pothole"
 }
+
+# -------------------------
+# STATIC FILES (ANNOTATED IMAGES)
+# -------------------------
+app.mount("/outputs", StaticFiles(directory=OUTPUT_DIR), name="outputs")
 
 # -------------------------
 # INIT LIVE STATS FILE
@@ -76,17 +90,39 @@ def update_live_stats(detections):
 
     for det in detections:
         stats["confidences"].append(det["confidence"])
-
         x1, y1, x2, y2 = det["bbox"]
         area = ((x2 - x1) * (y2 - y1)) / (IMG_SIZE * IMG_SIZE)
         stats["areas"].append(area)
 
-    # keep rolling window (last 100 detections)
     stats["confidences"] = stats["confidences"][-100:]
     stats["areas"] = stats["areas"][-100:]
 
     with open(LIVE_STATS_PATH, "w") as f:
         json.dump(stats, f, indent=4)
+
+def draw_and_save(image_path, detections):
+    image = cv2.imread(image_path)
+
+    for det in detections:
+        x1, y1, x2, y2 = map(int, det["bbox"])
+        label = f'{det["class"]} {det["confidence"]:.2f}'
+
+        cv2.rectangle(image, (x1, y1), (x2, y2), (0, 255, 0), 2)
+        cv2.putText(
+            image,
+            label,
+            (x1, max(y1 - 10, 10)),
+            cv2.FONT_HERSHEY_SIMPLEX,
+            0.6,
+            (0, 255, 0),
+            2
+        )
+
+    filename = f"{uuid.uuid4().hex}.jpg"
+    save_path = os.path.join(OUTPUT_DIR, filename)
+    cv2.imwrite(save_path, image)
+
+    return f"/outputs/{filename}"
 
 # -------------------------
 # ROOT
@@ -102,9 +138,14 @@ def root():
 async def predict(image: UploadFile = File(...)):
     try:
         contents = await image.read()
-        img = Image.open(io.BytesIO(contents)).convert("RGB")
+        pil_img = Image.open(io.BytesIO(contents)).convert("RGB")
 
-        results = model(img)
+        upload_path = os.path.join(
+            UPLOAD_DIR, f"{uuid.uuid4().hex}_{image.filename}"
+        )
+        pil_img.save(upload_path)
+
+        results = model(pil_img)
         detections = []
 
         for r in results:
@@ -118,9 +159,7 @@ async def predict(image: UploadFile = File(...)):
 
                 class_name = CIVISENSE_CLASSES.get(cls, "unknown")
                 severity, level = compute_severity(
-                    conf,
-                    [x1, y1, x2, y2],
-                    class_name
+                    conf, [x1, y1, x2, y2], class_name
                 )
 
                 detections.append({
@@ -131,22 +170,19 @@ async def predict(image: UploadFile = File(...)):
                     "bbox": [x1, y1, x2, y2]
                 })
 
-        # update drift stats
         update_live_stats(detections)
-
-        # log prediction to MongoDB
         log_prediction(image.filename, detections)
+
+        annotated_image = draw_and_save(upload_path, detections)
 
         return {
             "num_detections": len(detections),
-            "detections": detections
+            "detections": detections,
+            "annotated_image": annotated_image
         }
 
     except Exception as e:
-        return JSONResponse(
-            status_code=500,
-            content={"error": str(e)}
-        )
+        return JSONResponse(status_code=500, content={"error": str(e)})
 
 # -------------------------
 # MODEL HEALTH ENDPOINT
@@ -160,28 +196,15 @@ def model_health():
         with open(LIVE_STATS_PATH) as f:
             current = json.load(f)
 
-        conf_drift = abs(
-            mean(current["confidences"]) -
-            mean(baseline["confidences"])
-        )
-
-        area_drift = abs(
-            mean(current["areas"]) -
-            mean(baseline["areas"])
-        )
-
+        conf_drift = abs(mean(current["confidences"]) - mean(baseline["confidences"]))
+        area_drift = abs(mean(current["areas"]) - mean(baseline["areas"]))
         freq_drift = abs(
             (current["total_detections"] / max(current["total_images"], 1)) -
             (baseline["total_detections"] / max(baseline["total_images"], 1))
         )
-
-        # cap frequency influence
         freq_drift = min(freq_drift, 1.0)
 
-        drift_score = round(
-            (conf_drift + area_drift + freq_drift) / 3,
-            4
-        )
+        drift_score = round((conf_drift + area_drift + freq_drift) / 3, 4)
 
         if drift_score < 0.05:
             status = "STABLE"
@@ -198,12 +221,9 @@ def model_health():
             "status": status
         }
 
-        # log model health to MongoDB
         log_model_health(health_data)
-
         return health_data
 
     except Exception as e:
-     print("ERROR:", e)
-     raise e
-
+        print("ERROR:", e)
+        raise e
