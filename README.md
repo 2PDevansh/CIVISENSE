@@ -100,7 +100,7 @@ FastAPI Endpoints
 ## Sample Outputs
 
 <p align="center">
-  <img width="900" src="https://github.com/user-attachments/assets/d2cfd762-5b09-49cf-8489-dc3ebf7e4ea9"/>
+  <img width="740" height="271" alt="image" src="https://github.com/user-attachments/assets/361e2c60-6692-49e2-9c3f-d776a5f4d6ac" />
 
   <img width="1832" height="821" alt="image" src="https://github.com/user-attachments/assets/a5a38053-9b4b-4c87-b2c0-d6514e9952b1" />
 
@@ -174,6 +174,7 @@ Method	Endpoint	Description
 POST	/predict	Detect road damage from uploaded images
 
 GET	/model-health	Retrieve drift metrics & model status
+
 
 
 
