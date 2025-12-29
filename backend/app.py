@@ -1,6 +1,7 @@
 from fastapi import FastAPI, UploadFile, File
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
+from db import predictions_col
 from ultralytics import YOLO
 from PIL import Image
 import io
@@ -227,3 +228,34 @@ def model_health():
     except Exception as e:
         print("ERROR:", e)
         raise e
+# -------------------------
+# ANALYTICS ENDPOINT
+@app.get("/analytics/summary")
+def analytics_summary():
+    total_images = predictions_col.count_documents({})
+
+    pipeline = [
+        {"$unwind": "$detections"},
+        {"$group": {
+            "_id": "$detections.class",
+            "count": {"$sum": 1}
+        }},
+        {"$sort": {"count": -1}}
+    ]
+
+    damage_stats = list(predictions_col.aggregate(pipeline))
+
+    high_risk_pipeline = [
+        {"$unwind": "$detections"},
+        {"$match": {"detections.risk_level": "HIGH"}},
+        {"$count": "count"}
+    ]
+
+    high_risk_result = list(predictions_col.aggregate(high_risk_pipeline))
+    high_risk = high_risk_result[0]["count"] if high_risk_result else 0
+
+    return {
+        "total_images_processed": total_images,
+        "damage_distribution": damage_stats,
+        "high_risk_detections": high_risk
+    }
