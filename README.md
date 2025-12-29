@@ -127,6 +127,8 @@ FastAPI Endpoints
 </p>
 
 ---
+### Analytics API (damage summary)
+<img width="806" height="746" alt="image" src="https://github.com/user-attachments/assets/045a899b-f62d-4125-ae08-bea787ac5c1c" />
 
 ##  How to Run Locally
 
@@ -174,6 +176,7 @@ Method	Endpoint	Description
 POST	/predict	Detect road damage from uploaded images
 
 GET	/model-health	Retrieve drift metrics & model status
+
 
 
 
