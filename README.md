@@ -4,6 +4,7 @@
 
 #  CIVISENSE  
 ### AI-powered Urban Damage Intelligence & Vision Model Health Monitoring
+ > AI-powered urban infrastructure damage detection with severity analysis and model health monitoring.
 
 <p align="center">
   <img src="https://img.shields.io/badge/Python-3.11-blue"/>
@@ -126,9 +127,10 @@ FastAPI Endpoints
 
 </p>
 
----
 ### Analytics API (damage summary)
 <img width="806" height="746" alt="image" src="https://github.com/user-attachments/assets/045a899b-f62d-4125-ae08-bea787ac5c1c" />
+
+---
 
 ##  How to Run Locally
 
@@ -176,6 +178,11 @@ Method	Endpoint	Description
 POST	/predict	Detect road damage from uploaded images
 
 GET	/model-health	Retrieve drift metrics & model status
+
+## Engineering Highlights
+- Designed an end-to-end computer vision pipeline with production-style APIs and persistent analytics
+- Implemented statistical drift detection to monitor real-world model degradation
+
 
 
 
