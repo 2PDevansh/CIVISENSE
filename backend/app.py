@@ -1,7 +1,10 @@
 from fastapi import FastAPI, UploadFile, File
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
-from db import predictions_col
+
+from backend.db import predictions_col, log_prediction, log_model_health
+from backend.risk_engine import compute_severity
+
 from ultralytics import YOLO
 from PIL import Image
 import io
@@ -11,8 +14,23 @@ import os
 import uuid
 import cv2
 
-from risk_engine import compute_severity
-from db import log_prediction, log_model_health
+# -------------------------
+# PATH SETUP (CRITICAL FIX)
+# -------------------------
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+DATA_DIR = os.path.join(BASE_DIR, "data", "drift_images")
+UPLOAD_DIR = os.path.join(BASE_DIR, "backend", "uploads")
+OUTPUT_DIR = os.path.join(BASE_DIR, "backend", "outputs")
+MODEL_PATH = os.path.join(BASE_DIR, "models", "damage_detector.pt")
+BASELINE_STATS_PATH = os.path.join(DATA_DIR, "baseline_stats.json")
+LIVE_STATS_PATH = os.path.join(DATA_DIR, "live_stats.json")
+
+os.makedirs(DATA_DIR, exist_ok=True)
+os.makedirs(UPLOAD_DIR, exist_ok=True)
+os.makedirs(OUTPUT_DIR, exist_ok=True)
+
+IMG_SIZE = 640
 
 # -------------------------
 # APP INIT
@@ -22,21 +40,6 @@ app = FastAPI(
     description="AI-powered Urban Damage Intelligence & Model Health Monitoring",
     version="1.0.0"
 )
-
-# -------------------------
-# PATHS
-# -------------------------
-MODEL_PATH = "../models/damage_detector.pt"
-BASELINE_STATS_PATH = "../data/drift_images/baseline_stats.json"
-LIVE_STATS_PATH = "../data/drift_images/live_stats.json"
-
-UPLOAD_DIR = "backend/uploads"
-OUTPUT_DIR = "backend/outputs"
-
-IMG_SIZE = 640
-
-os.makedirs(UPLOAD_DIR, exist_ok=True)
-os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 # -------------------------
 # LOAD MODEL
@@ -56,7 +59,7 @@ CIVISENSE_CLASSES = {
 }
 
 # -------------------------
-# STATIC FILES (ANNOTATED IMAGES)
+# STATIC FILES
 # -------------------------
 app.mount("/outputs", StaticFiles(directory=OUTPUT_DIR), name="outputs")
 
@@ -80,7 +83,7 @@ if not os.path.exists(LIVE_STATS_PATH):
 # HELPERS
 # -------------------------
 def mean(arr):
-    return float(np.mean(arr)) if len(arr) else 0.0
+    return float(np.mean(arr)) if arr else 0.0
 
 def update_live_stats(detections):
     with open(LIVE_STATS_PATH) as f:
@@ -133,7 +136,7 @@ def root():
     return {"status": "CIVISENSE backend running"}
 
 # -------------------------
-# PREDICT ENDPOINT
+# PREDICT
 # -------------------------
 @app.post("/predict")
 async def predict(image: UploadFile = File(...)):
@@ -159,9 +162,7 @@ async def predict(image: UploadFile = File(...)):
                 x1, y1, x2, y2 = box.xyxy[0].tolist()
 
                 class_name = CIVISENSE_CLASSES.get(cls, "unknown")
-                severity, level = compute_severity(
-                    conf, [x1, y1, x2, y2], class_name
-                )
+                severity, level = compute_severity(conf, [x1, y1, x2, y2], class_name)
 
                 detections.append({
                     "class": class_name,
@@ -186,60 +187,53 @@ async def predict(image: UploadFile = File(...)):
         return JSONResponse(status_code=500, content={"error": str(e)})
 
 # -------------------------
-# MODEL HEALTH ENDPOINT
+# MODEL HEALTH
 # -------------------------
 @app.get("/model-health")
 def model_health():
-    try:
-        with open(BASELINE_STATS_PATH) as f:
-            baseline = json.load(f)
+    with open(BASELINE_STATS_PATH) as f:
+        baseline = json.load(f)
 
-        with open(LIVE_STATS_PATH) as f:
-            current = json.load(f)
+    with open(LIVE_STATS_PATH) as f:
+        current = json.load(f)
 
-        conf_drift = abs(mean(current["confidences"]) - mean(baseline["confidences"]))
-        area_drift = abs(mean(current["areas"]) - mean(baseline["areas"]))
-        freq_drift = abs(
-            (current["total_detections"] / max(current["total_images"], 1)) -
-            (baseline["total_detections"] / max(baseline["total_images"], 1))
-        )
-        freq_drift = min(freq_drift, 1.0)
+    conf_drift = abs(mean(current["confidences"]) - mean(baseline["confidences"]))
+    area_drift = abs(mean(current["areas"]) - mean(baseline["areas"]))
+    freq_drift = abs(
+        (current["total_detections"] / max(current["total_images"], 1)) -
+        (baseline["total_detections"] / max(baseline["total_images"], 1))
+    )
+    freq_drift = min(freq_drift, 1.0)
 
-        drift_score = round((conf_drift + area_drift + freq_drift) / 3, 4)
+    drift_score = round((conf_drift + area_drift + freq_drift) / 3, 4)
 
-        if drift_score < 0.05:
-            status = "STABLE"
-        elif drift_score < 0.15:
-            status = "WARNING"
-        else:
-            status = "RETRAIN_SUGGESTED"
+    status = (
+        "STABLE" if drift_score < 0.05
+        else "WARNING" if drift_score < 0.15
+        else "RETRAIN_SUGGESTED"
+    )
 
-        health_data = {
-            "drift_score": drift_score,
-            "confidence_drift": round(conf_drift, 4),
-            "area_drift": round(area_drift, 4),
-            "frequency_drift": round(freq_drift, 4),
-            "status": status
-        }
+    health_data = {
+        "drift_score": drift_score,
+        "confidence_drift": round(conf_drift, 4),
+        "area_drift": round(area_drift, 4),
+        "frequency_drift": round(freq_drift, 4),
+        "status": status
+    }
 
-        log_model_health(health_data)
-        return health_data
+    log_model_health(health_data)
+    return health_data
 
-    except Exception as e:
-        print("ERROR:", e)
-        raise e
 # -------------------------
-# ANALYTICS ENDPOINT
+# ANALYTICS
+# -------------------------
 @app.get("/analytics/summary")
 def analytics_summary():
     total_images = predictions_col.count_documents({})
 
     pipeline = [
         {"$unwind": "$detections"},
-        {"$group": {
-            "_id": "$detections.class",
-            "count": {"$sum": 1}
-        }},
+        {"$group": {"_id": "$detections.class", "count": {"$sum": 1}}},
         {"$sort": {"count": -1}}
     ]
 
