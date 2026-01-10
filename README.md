@@ -11,6 +11,7 @@
   <img src="https://img.shields.io/badge/FastAPI-Backend-green"/>
   <img src="https://img.shields.io/badge/MongoDB-Atlas-brightgreen"/>
   <img src="https://img.shields.io/badge/Status-Completed-success"/>
+  <img src="https://img.shields.io/badge/Streamlit"/>
 </p>
 
 ---
@@ -183,6 +184,7 @@ GET	/model-health	Retrieve drift metrics & model status
 ## Engineering Highlights
 - Designed an end-to-end computer vision pipeline with production-style APIs and persistent analytics
 - Implemented statistical drift detection to monitor real-world model degradation
+
 
 
 
