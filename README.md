@@ -1,4 +1,3 @@
-<img width="1660" height="840" alt="Screenshot 2026-01-10 180200" src="https://github.com/user-attachments/assets/4ff2d177-887a-4b04-a522-246a6a6b6045" /><p align="center">
   <img src="assets/civisense_banner.png" width="850"/>
 </p>
 
@@ -184,6 +183,7 @@ GET	/model-health	Retrieve drift metrics & model status
 ## Engineering Highlights
 - Designed an end-to-end computer vision pipeline with production-style APIs and persistent analytics
 - Implemented statistical drift detection to monitor real-world model degradation
+
 
 
 
