@@ -1,4 +1,4 @@
-<p align="center">
+<img width="1660" height="840" alt="Screenshot 2026-01-10 180200" src="https://github.com/user-attachments/assets/4ff2d177-887a-4b04-a522-246a6a6b6045" /><p align="center">
   <img src="assets/civisense_banner.png" width="850"/>
 </p>
 
@@ -101,21 +101,23 @@ FastAPI Endpoints
 ## Sample Outputs
 
 <p align="center">
-  <img width="740" height="271" alt="image" src="https://github.com/user-attachments/assets/361e2c60-6692-49e2-9c3f-d776a5f4d6ac" />
+  <img width="1793" height="672" alt="Screenshot 2026-01-10 180104" src="https://github.com/user-attachments/assets/57620c98-51e6-49a7-83c4-73a2682dd050" />
 
-  <img width="1832" height="821" alt="image" src="https://github.com/user-attachments/assets/a5a38053-9b4b-4c87-b2c0-d6514e9952b1" />
+  <img width="1798" height="646" alt="Screenshot 2026-01-10 180142" src="https://github.com/user-attachments/assets/16cc6d8d-aed8-4b05-ae4c-5c993928bb3a" />
+  
+  <img width="1660" height="840" alt="Screenshot 2026-01-10 180200" src="https://github.com/user-attachments/assets/bec8a027-1c09-4c75-95b7-8d246906fe68" />
 
+   
 </p>
 
 ###  API Responses & Drift Metrics
 
 <p align="center">
-<img width="574" height="843" alt="image" src="https://github.com/user-attachments/assets/f1c2ac5e-2fb9-4058-bb8b-8000039b3ff0" />
+<img width="1723" height="466" alt="Screenshot 2026-01-10 180205" src="https://github.com/user-attachments/assets/99ee2fe6-02c6-4263-879c-8fdd11da7c4b" />
   
-<img width="740" height="641" alt="image" src="https://github.com/user-attachments/assets/f1922371-7ea9-46bc-a82c-2cd87e311482" />
+<img width="1766" height="673" alt="Screenshot 2026-01-10 180215" src="https://github.com/user-attachments/assets/8e9383cb-467f-47f6-9315-248582c9e42c" />
 
-<img width="811" height="690" alt="image" src="https://github.com/user-attachments/assets/8584182b-6719-4433-b729-706839da90aa" />
-
+<img width="1630" height="811" alt="Screenshot 2026-01-10 180223" src="https://github.com/user-attachments/assets/536722fb-f813-4f5a-9479-3fa8faeb9f12" />
 
 </p>
 
@@ -182,6 +184,7 @@ GET	/model-health	Retrieve drift metrics & model status
 ## Engineering Highlights
 - Designed an end-to-end computer vision pipeline with production-style APIs and persistent analytics
 - Implemented statistical drift detection to monitor real-world model degradation
+
 
 
 
