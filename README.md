@@ -8,17 +8,11 @@
 <p align="center">
   <img src="https://img.shields.io/badge/Python-3.11-blue"/>
   <img src="https://img.shields.io/badge/YOLOv11-Ultralytics-orange"/>
+  <img src="https://img.shields.io/badge/Frontend-Streamlit-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white"/>
   <img src="https://img.shields.io/badge/FastAPI-Backend-green"/>
   <img src="https://img.shields.io/badge/MongoDB-Atlas-brightgreen"/>
   <img src="https://img.shields.io/badge/Status-Completed-success"/>
-  <img src="https://img.shields.io/badge/Frontend-Streamlit-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white"/>
-![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white)
-![YOLO](https://img.shields.io/badge/YOLOv11-Ultralytics-00FFFF?style=for-the-badge)
-![FastAPI](https://img.shields.io/badge/Backend-FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white)
-![MongoDB](https://img.shields.io/badge/Database-MongoDB_Atlas-47A248?style=for-the-badge&logo=mongodb&logoColor=white)
-![Streamlit](https://img.shields.io/badge/Frontend-Streamlit-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)
-![MLOps](https://img.shields.io/badge/MLOps-Drift_Detection-orange?style=for-the-badge)
-
+  
 
 </p>
 
