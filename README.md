@@ -180,7 +180,7 @@ Upload an image using:
 
 Streamlit dashboard OR
 
-/predict endpoint (Swagger UI / API client)
+```/predict``` endpoint (Swagger UI / API client)
 
 The API response includes:
 
@@ -206,6 +206,7 @@ GET	/model-health	Retrieve drift metrics & model status
 ## **Engineering Highlights**
 - Designed an end-to-end computer vision pipeline with production-style APIs and persistent analytics
 - Implemented statistical drift detection to monitor real-world model degradation
+
 
 
 
