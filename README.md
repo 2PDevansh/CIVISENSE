@@ -108,8 +108,6 @@ FastAPI Endpoints
 
   <img width="1798" height="646" alt="Screenshot 2026-01-10 180142" src="https://github.com/user-attachments/assets/16cc6d8d-aed8-4b05-ae4c-5c993928bb3a" />
   
-  <img width="1660" height="840" alt="Screenshot 2026-01-10 180200" src="https://github.com/user-attachments/assets/bec8a027-1c09-4c75-95b7-8d246906fe68" />
-
    
 </p>
 
@@ -187,6 +185,7 @@ GET	/model-health	Retrieve drift metrics & model status
 ## Engineering Highlights
 - Designed an end-to-end computer vision pipeline with production-style APIs and persistent analytics
 - Implemented statistical drift detection to monitor real-world model degradation
+
 
 
 
