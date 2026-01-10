@@ -147,44 +147,66 @@ uvicorn backend.app:app --reload
 Swagger UI: http://127.0.0.1:8000/docs
 
 ```
-##  Viewing Annotated Images (Bounding Boxes)
+Start the Frontend (Streamlit Dashboard)
 
-CIVISENSE can optionally generate **annotated images** with bounding boxes around detected road damage.
+#### Open a new terminal:
+```
 
-### How it works
+cd frontend
+streamlit run app.py
 
-- When an image is uploaded to the `/predict` endpoint:
-  - The model performs detection
-  - Bounding boxes are drawn on the image
-  - The annotated image is saved on the server
+# The dashboard will be available at:
 
-### How to view the image
+http://localhost:8501
 
-1. Upload an image using the `/predict` endpoint  
-   (via Swagger UI or API client)
+```
+### **Viewing Annotated Images (Bounding Boxes)**
 
-2. The API response will include an `annotated_image` field:
+CIVISENSE can optionally generate annotated images with bounding boxes around detected road damage.
 
-```json
+#### **How it works**
+
+When an image is uploaded (via API or Streamlit):
+
+The YOLO model performs damage detection
+
+Bounding boxes and labels are drawn
+
+The annotated image is saved on the server
+
+#### **How to view the image**
+
+Upload an image using:
+
+Streamlit dashboard OR
+
+/predict endpoint (Swagger UI / API client)
+
+The API response includes:
+
+```
 {
   "annotated_image": "/outputs/3f8a2c91e7b44c1b.jpg"
 }
-Open the image in your browser:
+```
 
+Open the image directly in your browser:
 
+```
 http://127.0.0.1:8000/outputs/3f8a2c91e7b44c1b.jpg
 ```
 
- ### API Endpoints
+ ### **API Endpoints**
 Method	Endpoint	Description
 
 POST	/predict	Detect road damage from uploaded images
 
 GET	/model-health	Retrieve drift metrics & model status
 
-## Engineering Highlights
+## **Engineering Highlights**
 - Designed an end-to-end computer vision pipeline with production-style APIs and persistent analytics
 - Implemented statistical drift detection to monitor real-world model degradation
+
 
 
 
