@@ -253,3 +253,25 @@ def analytics_summary():
         "damage_distribution": damage_stats,
         "high_risk_detections": high_risk
     }
+
+@app.get("/alerts/high-risk")
+def high_risk_alerts(limit: int = 5):
+    pipeline = [
+        {"$unwind": "$detections"},
+        {"$match": {"detections.risk_level": "HIGH"}},
+        {"$sort": {"timestamp": -1}},
+        {"$limit": limit},
+        {
+            "$project": {
+                "_id": 0,
+                "image_name": 1,
+                "class": "$detections.class",
+                "confidence": "$detections.confidence",
+                "severity": "$detections.severity",
+                "timestamp": 1
+            }
+        }
+    ]
+
+    alerts = list(predictions_col.aggregate(pipeline))
+    return {"alerts": alerts}

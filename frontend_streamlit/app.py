@@ -145,3 +145,17 @@ with tab3:
             )
     else:
         st.error("Failed to load analytics")
+st.subheader(" Recent High-Risk Alerts")
+
+alerts_response = requests.get(
+    f"{BACKEND_URL}/alerts/high-risk?limit=5"
+)
+
+if alerts_response.status_code == 200:
+    alerts = alerts_response.json()["alerts"]
+
+    if alerts:
+        df_alerts = pd.DataFrame(alerts)
+        st.dataframe(df_alerts)
+    else:
+        st.info("No high-risk alerts found")
