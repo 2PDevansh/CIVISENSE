@@ -109,27 +109,27 @@ FastAPI Endpoints
    
 </p>
 
-###  API Responses & Drift Metrics
+###  Streamlit
 
 <p align="center">
 <img width="1723" height="466" alt="Screenshot 2026-01-10 180205" src="https://github.com/user-attachments/assets/99ee2fe6-02c6-4263-879c-8fdd11da7c4b" />
   
 <img width="1766" height="673" alt="Screenshot 2026-01-10 180215" src="https://github.com/user-attachments/assets/8e9383cb-467f-47f6-9315-248582c9e42c" />
 
-<img width="1630" height="811" alt="Screenshot 2026-01-10 180223" src="https://github.com/user-attachments/assets/536722fb-f813-4f5a-9479-3fa8faeb9f12" />
 
 </p>
 
 ###  Annotated Detection Results
 
 <p align="center">
-  <img width="508" height="345" alt="image" src="https://github.com/user-attachments/assets/3aac1452-d51d-4f30-9bba-6c75befc6ae5" />
+  <img width="1660" height="840" alt="Screenshot 2026-01-10 180200" src="https://github.com/user-attachments/assets/72149b7b-ff8f-4cd5-bfe3-0e729771f311" />
 
 
 </p>
 
-### Analytics API (damage summary)
-<img width="806" height="746" alt="image" src="https://github.com/user-attachments/assets/045a899b-f62d-4125-ae08-bea787ac5c1c" />
+### Analytics (damage summary)
+
+<img width="1630" height="811" alt="Screenshot 2026-01-10 180223" src="https://github.com/user-attachments/assets/844bdf0c-fc7d-4899-87b8-4fa18642b6ca" />
 
 ---
 
@@ -183,6 +183,7 @@ GET	/model-health	Retrieve drift metrics & model status
 ## Engineering Highlights
 - Designed an end-to-end computer vision pipeline with production-style APIs and persistent analytics
 - Implemented statistical drift detection to monitor real-world model degradation
+
 
 
 
